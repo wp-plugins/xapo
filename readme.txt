@@ -23,7 +23,7 @@ To get your API key and secret, please contact developers@xapo.com
 
 == Screenshots ==
 
-1. screenshot.png
+1. The plugin adds a Tip button at the end of each blog post.
 
 == Change log ==
 
