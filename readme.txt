@@ -16,8 +16,10 @@ A WordPress plugin that lets you accept tips on your blog posts.
 == Installation ==
 
 1. Upload `xapo-wordpress` to the `/wp-content/plugins/` directory.
-1. Activate the plugin through the 'Plugins' menu in WordPress.
-1. Enter your API key and secret in the plugin's Settings screen.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Enter your API key and secret in the plugin's Settings screen.
+
+To get your API key and secret, please contact developers@xapo.com
 
 == Screenshots ==
 
