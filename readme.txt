@@ -19,7 +19,12 @@ A WordPress plugin that lets you accept bitcoin tips on your blog posts.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Enter your API key and secret in the plugin's Settings screen.
 
-To get your API key and secret, please contact developers@xapo.com
+Go to your Xapo Button settings and enter
+
+Xapo API URL = https://mpayment.xapo.com/pay_button/show
+App ID = d384e4ef67400127
+App Secret = ee1b0b1a4ae04a8e9d708d72aecf292a
+
 
 == Screenshots ==
 
