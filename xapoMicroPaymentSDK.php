@@ -43,17 +43,21 @@
       $buttonRequestObj->pay_object_id = $request->pay_object_id;
       $buttonRequestObj->amount_BIT = $request->amount_BIT;
       $buttonRequestObj->timestamp = time() * 1000;
-      
       $buttonRequestJson = json_encode($buttonRequestObj);
-      $buttonRequestEnc = XapoMicroPaymentSDK::encrypt($buttonRequestJson);
-      
+
       $customization = new stdClass;
       $customization->button_text = $request->pay_type;
-      
       $queryStrObj = new stdClass;
-      $queryStrObj->app_id = XapoMicroPaymentSDK::$appID;
-      $queryStrObj->button_request = $buttonRequestEnc;
       $queryStrObj->customization = json_encode($customization);
+      
+      if(isset(XapoMicroPaymentSDK::$appID) && isset(XapoMicroPaymentSDK::$appSecret)){
+        $buttonRequestEnc = XapoMicroPaymentSDK::encrypt($buttonRequestJson);
+        $queryStrObj->app_id = XapoMicroPaymentSDK::$appID;
+        $queryStrObj->button_request = $buttonRequestEnc;
+      }else{
+        $queryStrObj->payload = $buttonRequestJson;
+      }
+      
       $queryStr = http_build_query($queryStrObj);
       
       $widgetUrl = XapoMicroPaymentSDK::$serviceUrl.'?'.$queryStr;

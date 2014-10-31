@@ -1,5 +1,5 @@
 <div class="wrap">
-	<h2>Xapo's Wordpress Plugin</h2>
+	<h2>Xapo's WordPress Plugin</h2>
 
 	<form method="post" action="options.php"> 
 		<?php settings_fields('xapo-tipping'); ?>
@@ -31,7 +31,7 @@
         </tr>
 
         <tr valign="top">
-	        <th scope="row">Tip to Admin</th>
+	        <th scope="row">Tip to Admin<dfn style="display: block;font-size: 10px;color: #545454;">By default the tips goes to author email</dfn></th>
 	        <td>
 	        	<?php $tip_to_admin_checked  = (get_option('tip_to_admin') == 'true') ? 'checked' : '' ; ?>
 	        	<input type="checkbox" name="tip_to_admin" value="true" <?php echo $tip_to_admin_checked?>/> use wordpress admin's email instead of page/post author
@@ -39,23 +39,8 @@
         </tr>
 
         <tr valign="top">
-	        <th scope="row">Tip to custom Xapo email</th>
+	        <th scope="row">Tip to custom Xapo email<dfn style="display: block;font-size: 10px;color: #545454;">Will override author/admin email</dfn></th>
 	        <td><input type="email" name="tip_to_custom" value="<?php echo esc_attr( get_option('tip_to_custom') ); ?>" /></td>
-        </tr>
-
-        <tr valign="top">
-	        <th scope="row">Xapo API URL*</th>
-	        <td><input type="text" name="xapoApiURL" value="<?php echo esc_attr( get_option('xapoApiURL') ); ?>" /></td>
-        </tr>
-
-        <tr valign="top">
-	        <th scope="row">App ID*</th>
-	        <td><input type="text" name="xapoAppID" value="<?php echo esc_attr( get_option('xapoAppID') ); ?>" /></td>
-        </tr>
-
-        <tr valign="top">
-	        <th scope="row">App Secret*</th>
-	        <td><input type="text" name="xapoAppSecret" value="<?php echo esc_attr( get_option('xapoAppSecret') ); ?>" /></td>
         </tr>
     </table>
 
