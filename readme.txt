@@ -1,6 +1,6 @@
 === Xapo ===
 Contributors: xapo, wikichaves, sbehrends
-Tags: bitcoin, tip, xapo 
+Tags: xapo, bitcoin, tip, monetize, donations, donate, micropayments
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Stable tag: 0.2
