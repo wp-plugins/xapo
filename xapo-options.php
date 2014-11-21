@@ -7,7 +7,7 @@
 
 		<table class="form-table">
         <tr valign="top">
-	        <th scope="row">Pay Type*</th>
+	        <th scope="row">Pay Type</th>
 	        <td>
 	<?php
 						$pay_selected = (get_option('pay_type') == 'Pay') ? ' selected' : '';
@@ -26,7 +26,7 @@
         </tr>
          
         <tr valign="top">
-	        <th scope="row">Default Amount of Bits</th>
+	        <th scope="row">Amount of bits<dfn style="display: block;font-size: 10px;color: #545454;">Blank if you want the reader to decide</dfn></th>
 	        <td><input type="number" name="amount_bit" value="<?php echo esc_attr( get_option('amount_bit') ); ?>" /></td>
         </tr>
 
@@ -34,17 +34,21 @@
 	        <th scope="row">Tip to Admin<dfn style="display: block;font-size: 10px;color: #545454;">By default the tips goes to author email</dfn></th>
 	        <td>
 	        	<?php $tip_to_admin_checked  = (get_option('tip_to_admin') == 'true') ? 'checked' : '' ; ?>
-	        	<input type="checkbox" name="tip_to_admin" value="true" <?php echo $tip_to_admin_checked?>/> use wordpress admin's email instead of page/post author
+	        	<input type="checkbox" name="tip_to_admin" value="true" <?php echo $tip_to_admin_checked?>/> Use WordPress Admin's email instead of page/post author
         	</td>
         </tr>
 
         <tr valign="top">
-	        <th scope="row">Tip to custom Xapo email<dfn style="display: block;font-size: 10px;color: #545454;">Will override author/admin email</dfn></th>
+	        <th scope="row">Tip to custom email<dfn style="display: block;font-size: 10px;color: #545454;">Will override author/admin email</dfn></th>
 	        <td><input type="email" name="tip_to_custom" value="<?php echo esc_attr( get_option('tip_to_custom') ); ?>" /></td>
         </tr>
+        
     </table>
 
 		<?php submit_button(); ?>
 	</form>
+	
+	<p>Help us spread the word by <a href="http://ctt.ec/wlY8G">tweeting about</a> our plugin.<br>
+	Have feedback or ideas? Please, <a href="mailto:feedback+wordpress@xapo.com?subject=WordPress plugin feedback">let us know</a>.</p>
 
 </div>
