@@ -3,7 +3,7 @@
 	* Plugin Name: Xapo
 	* Plugin URI: http://xapo.com
 	* Description: A WordPress plugin that lets you accept bitcoin tips on your blog posts.
-	* Version: 0.2.1
+	* Version: 0.3.0
 	* Author: Xapo
 	* Author URI: https://xapo.com
 	*/
@@ -53,25 +53,25 @@ function print_tip_btn($content) {
 			// Setup inital vars for xapo button
 			$post_title = $post->ID; // Using Post ID right now just for reference
 
-			$optionTipToAdmin = get_option('tip_to_admin');
-			$optionTipToCustom = get_option('tip_to_custom');
+			$optionTipToAdmin = get_option('xapo_tip_to_admin');
+			$optionTipToCustom = get_option('xapo_tip_to_custom');
 
 			if ( $optionTipToAdmin == "true" && empty($optionTipToCustom) ) {
-				$author_email = get_option('admin_email');
+				$author_email = get_option('xapo_admin_email');
 			} elseif (!empty($optionTipToCustom)) {
 				$author_email = $optionTipToCustom;
 			} else {
 				$author_email = $authordata->user_email;
 			}
 
-			$optionAmountBit = get_option('amount_bit');
+			$optionAmountBit = get_option('xapo_amount_bit');
 			if ( !empty($optionAmountBit) && $optionAmountBit > 0 ) {
 				$amount_BIT = $optionAmountBit;
 			} else {
 				$amount_BIT = null;
 			}
 
-			$optionPayType = get_option('pay_type');
+			$optionPayType = get_option('xapo_pay_type');
 			if ( !empty($optionPayType) ) {
 				$pay_type = $optionPayType;
 			} else {
@@ -95,9 +95,9 @@ function print_tip_btn($content) {
 
 }
 
-// Don't add button to content for now
-// Add iframe in theme using function print_tip_btc();
-add_filter('the_content', 'print_tip_btn');
+if (get_option('xapo_post_bottom') == 'true') {
+	add_filter('the_content', 'print_tip_btn');
+}
 
 // Add Options Page to Settings Menu
 add_action('admin_menu', 'add_options_menu');
@@ -115,15 +115,26 @@ function register_settings() {
 	register_setting( 'xapo-tipping', 'xapoAppID');
 	register_setting( 'xapo-tipping', 'xapoAppSecret');
 
-	register_setting( 'xapo-tipping', 'pay_type');
-	register_setting( 'xapo-tipping', 'amount_bit');
-	register_setting( 'xapo-tipping', 'tip_to_admin');
-	register_setting( 'xapo-tipping', 'tip_to_custom');
+	register_setting( 'xapo-tipping', 'xapo_pay_type');
+	register_setting( 'xapo-tipping', 'xapo_amount_bit');
+	register_setting( 'xapo-tipping', 'xapo_tip_to_admin');
+	register_setting( 'xapo-tipping', 'xapo_tip_to_custom');
+
+	register_setting( 'xapo-tipping', 'xapo_post_bottom');
+
+	if (get_option('xapo_pay_type') === false) {
+		// Set default value
+		update_option('xapo_pay_type', 'Donate');
+	}
+	if (get_option('xapo_post_bottom') === false) {
+		// Set default value
+		update_option('xapo_post_bottom', 'true');
+	}
 
 
 } 
 
-add_action( 'admin_init', 'register_settings' );
+add_action( 'admin_init', 'register_settings');
 
 add_action( 'admin_notices', 'xapo_active_event' ) ;
 
