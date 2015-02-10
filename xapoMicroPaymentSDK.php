@@ -32,24 +32,18 @@
       return $enc;
     }
     
-    static private function buildWidgetUrl($request)
+    static private function buildWidgetUrl($buttonRequest, $customization = null)
     {
-      $buttonRequestObj = new stdClass;
-      $buttonRequestObj->sender_user_id = $request->sender_user_id;
-      $buttonRequestObj->sender_user_email = $request->sender_user_email;
-      $buttonRequestObj->sender_user_cellphone = $request->sender_user_cellphone;
-      $buttonRequestObj->receiver_user_id = $request->receiver_user_id;
-      $buttonRequestObj->receiver_user_email = $request->receiver_user_email;
-      $buttonRequestObj->pay_object_id = $request->pay_object_id;
-      $buttonRequestObj->amount_BIT = $request->amount_BIT;
-      $buttonRequestObj->timestamp = time() * 1000;
-      $buttonRequestJson = json_encode($buttonRequestObj);
+      $buttonRequest->timestamp = time() * 1000;
+      $buttonRequestJson = json_encode($buttonRequest);
 
-      $customization = new stdClass;
-      $customization->button_text = $request->pay_type;
-      $queryStrObj = new stdClass;
-      $queryStrObj->customization = json_encode($customization);
+      if(!isset($customization)){
+        $customization = new stdClass();
+      }
+
+      $customizationJson = json_encode($customization);
       
+      $queryStrObj = new stdClass;      
       if(isset(XapoMicroPaymentSDK::$appID) && isset(XapoMicroPaymentSDK::$appSecret)){
         $buttonRequestEnc = XapoMicroPaymentSDK::encrypt($buttonRequestJson);
         $queryStrObj->app_id = XapoMicroPaymentSDK::$appID;
@@ -57,49 +51,49 @@
       }else{
         $queryStrObj->payload = $buttonRequestJson;
       }
-      
+      $queryStrObj->customization = $customizationJson;      
+
       $queryStr = http_build_query($queryStrObj);
       
       $widgetUrl = XapoMicroPaymentSDK::$serviceUrl.'?'.$queryStr;
       return $widgetUrl;      
     }
     
-    static public function buildDivWidget($request)
+    static public function buildIframeWidget($buttonRequest, $customization = null)
     {
-      $widgetUrl = XapoMicroPaymentSDK::buildWidgetUrl($request);
-      
-      $res = '<div id="tipButtonDiv" class="tipButtonDiv"></div>';
-      $res .= '<div id="tipButtonPopup" class="tipButtonPopup"></div>';
-      $res .= '<script>';
-      $res .= '$(document).ready(function() {';
-      $res .= '$("#tipButtonDiv").load("'.$widgetUrl.'");';
-      $res .= '});';      
-      $res .= '</script>';            
-      
-      return $res;
-    }
-
-    static public function buildIframeWidget($request)
-    {
-      $widgetUrl = XapoMicroPaymentSDK::buildWidgetUrl($request);
+      $widgetUrl = XapoMicroPaymentSDK::buildWidgetUrl($buttonRequest, $customization);
       $res = '<iframe id="tipButtonFrame" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:22px;" allowTransparency="true" src="'.$widgetUrl.'"></iframe>';
       return $res;
     }
     
-    static public function iframeWidget($sender_user_id, $sender_user_email, $sender_user_cellphone, $receiver_user_id, $receiver_user_email, $pay_object_id, $amount_BIT, $pay_type)
+    //mandatory fields: sender_user_id, receiver_user_id, receiver_user_email, pay_object_id
+    //pay_type possible values: pay, tip, deposit, donation
+    //button_css possible values: red, grey
+    //redirect_uri callback to be invoked by http get with the following query parameters: id, reference_code
+    //end_mpayment_redirect_uri callback by redirect at the end of the flow
+    static public function iframeWidget($sender_user_id, $sender_user_email, $sender_user_cellphone, $receiver_user_id, $receiver_user_email, $pay_object_id, 
+          $amount_BIT, $pay_type, $reference_code, $end_mpayment_uri, $end_mpayment_redirect_uri, $redirect_uri, $predefined_pay_values, $button_css, $login_cellphone_header_title)
     {
-      $buttonRequestObj = new stdClass();
-      $buttonRequestObj->sender_user_id = $sender_user_id;
-      $buttonRequestObj->sender_user_email = $sender_user_email;
-      $buttonRequestObj->sender_user_cellphone = $sender_user_cellphone;
-      $buttonRequestObj->receiver_user_id = $receiver_user_id;
-      $buttonRequestObj->receiver_user_email = $receiver_user_email;
-      $buttonRequestObj->pay_object_id = $pay_object_id;
-      $buttonRequestObj->amount_BIT = $amount_BIT;
-      $buttonRequestObj->pay_type = $pay_type;        
+      $buttonRequest = new stdClass();
+      $buttonRequest->sender_user_id = $sender_user_id;
+      $buttonRequest->sender_user_email = $sender_user_email;
+      $buttonRequest->sender_user_cellphone = $sender_user_cellphone;
+      $buttonRequest->receiver_user_id = $receiver_user_id;
+      $buttonRequest->receiver_user_email = $receiver_user_email;
+      $buttonRequest->pay_object_id = $pay_object_id;
+      $buttonRequest->amount_BIT = $amount_BIT;
+      $buttonRequest->pay_type = $pay_type; 
+      $buttonRequest->reference_code = $reference_code; 
+      $buttonRequest->end_mpayment_uri = $end_mpayment_uri; 
+      $buttonRequest->end_mpayment_redirect_uri = $end_mpayment_redirect_uri; 
+      $buttonRequest->redirect_uri = $redirect_uri; 
       
-      $widgetUrl = XapoMicroPaymentSDK::buildWidgetUrl($buttonRequestObj);
-      $res = '<iframe id="tipButtonFrame" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:22px;" allowTransparency="true" src="'.$widgetUrl.'"></iframe>';
+      $customization = new stdClass();
+      $customization->predefined_pay_values = $predefined_pay_values; 
+      $customization->button_css = $button_css;     
+      $customization->login_cellphone_header_title = $login_cellphone_header_title;     
+      
+      $res = XapoMicroPaymentSDK::buildIframeWidget($buttonRequest, $customization);
       return $res;
     }    
     
