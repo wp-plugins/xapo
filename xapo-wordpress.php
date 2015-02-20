@@ -3,7 +3,7 @@
 	* Plugin Name: Xapo
 	* Plugin URI: http://xapo.com
 	* Description: A WordPress plugin that lets you accept bitcoin tips on your blog posts.
-	* Version: 0.3.1
+	* Version: 0.4.1
 	* Author: Xapo
 	* Author URI: https://xapo.com
 	*/
