@@ -3,7 +3,7 @@ Contributors: xapo, wikichaves, sbehrends
 Tags: xapo, bitcoin, tip, monetize, donations, donate, micropayments
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Stable tag: 0.4.0
+Stable tag: 0.3.1
 Requires at least: 3.0
 Tested up to: 4.1
 
@@ -34,9 +34,6 @@ By default the tip button will be added at the end of content, but optionally yo
 1. The plugin adds a Tip button at the end of each blog post.
 
 == Changelog ==
-
-= Version 0.4 =
-* Updated Xapo SDK
 
 = Version 0.3 =
 * Additional options to display tipping button.

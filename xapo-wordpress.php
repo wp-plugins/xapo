@@ -3,7 +3,7 @@
 	* Plugin Name: Xapo
 	* Plugin URI: http://xapo.com
 	* Description: A WordPress plugin that lets you accept bitcoin tips on your blog posts.
-	* Version: 0.4.0
+	* Version: 0.3.1
 	* Author: Xapo
 	* Author URI: https://xapo.com
 	*/
@@ -143,16 +143,3 @@ function xapo_active_event() {
 <!-- Facebook Conversion Code for Wordpress Plugin Active --> <script>(function() { var _fbq = window._fbq || (window._fbq = []); if (!_fbq.loaded) { var fbds = document.createElement('script'); fbds.async = true; fbds.src = '//connect.facebook.net/en_US/fbds.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(fbds, s); _fbq.loaded = true; } })(); window._fbq = window._fbq || []; window._fbq.push(['track', '6022567962340', {'value':'0.00','currency':'USD'}]); </script> <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6022567962340&amp;cd[value]=0.00&amp…" /></noscript>
 	<?php
 }
-
-
-// Add custom CSS and JS
-function xapo_enqueue_style() {
-	wp_enqueue_style('xapotipcss', XAPO_TIP_URL.'/assets/css/style.css', null, '0.0.1'); 
-}
-
-function xapo_enqueue_script() {
-	wp_enqueue_script('xapotipjs', XAPO_TIP_URL.'/assets/js/bitbtn.js', array('jquery'), '0.0.1', true);
-}
-
-add_action( 'wp_enqueue_scripts', 'xapo_enqueue_style' );
-add_action( 'wp_enqueue_scripts', 'xapo_enqueue_script' );
